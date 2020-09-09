@@ -19,8 +19,6 @@ class App {
       exp: Math.floor(Date.now() / 1000) + 10 * 60, //expires after 10 minutes
       iss: this.appID,
     };
-    console.log(this.appID);
-    console.log("private key", this.privateKey);
     var token = jwt.sign(payload, this.privateKey, { algorithm: "RS256" });
     return token;
   }
@@ -37,7 +35,6 @@ class App {
         {},
         { headers }
       );
-      console.log("Auth token", data.token);
       return data.token;
     } catch (error) {
       throw new Error(error);

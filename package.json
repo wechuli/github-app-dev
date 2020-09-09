@@ -7,11 +7,18 @@
   "author": "Wechuli <wechulipaul@yahoo.com>",
   "license": "MIT",
   "dependencies": {
+    "@octokit/core": "^3.1.2",
+    "@octokit/request": "^5.4.7",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "helmet": "^4.1.0",
-    "jest": "^26.4.2",
     "joi": "^17.2.1",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "jest": "^26.4.2",
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
   }
 }

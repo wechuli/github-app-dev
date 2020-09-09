@@ -1,7 +1,8 @@
 const express = require("express");
 const app = require("../services/auth");
 const { issuesHandler } = require("../controllers/issuesController");
-const { issues } = require("../constants/githubEvents");
+const { pullsHandler } = require("../controllers/pullRequestsController");
+const { issues, pull_request } = require("../constants/githubEvents");
 
 const router = express.Router();
 
@@ -21,11 +22,14 @@ router.post("/", async (req, res) => {
       installationId
     );
 
+    const args = { req, res, installationAccessToken, baseInfo };
+
     // route to different controllers depending on the x-github-event event header
     switch (HTTP_X_GITHUB_EVENT) {
       case issues:
-        return issuesHandler(req, res, installationAccessToken, baseInfo);
-
+        return issuesHandler(args);
+      case pull_request:
+        return pullsHandler(args);
       default:
         break;
     }

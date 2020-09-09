@@ -1,3 +1,6 @@
+# don't upload config
+config
+
 # Logs
 logs
 *.log

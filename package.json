@@ -1,0 +1,17 @@
+{
+  "name": "github-app-dev",
+  "version": "1.0.0",
+  "description": "github app for playing with github apps",
+  "main": "index.js",
+  "repository": "https://github.com/wechuli/github-app-dev.git",
+  "author": "Wechuli <wechulipaul@yahoo.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.1.0",
+    "jest": "^26.4.2",
+    "joi": "^17.2.1",
+    "morgan": "^1.10.0"
+  }
+}

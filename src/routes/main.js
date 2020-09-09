@@ -1,7 +1,7 @@
 const express = require("express");
 const app = require("../services/auth");
 const { issuesHandler } = require("../controllers/issuesController");
-const { pullsHandler } = require("../controllers/pullRequestsController");
+const { pullsHandler } = require("../controllers/pullsController");
 const { issues, pull_request } = require("../constants/githubEvents");
 
 const router = express.Router();

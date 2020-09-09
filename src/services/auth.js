@@ -21,25 +21,15 @@ class App {
   }
   async getInstallationAccessToken({ installationId }) {
     const headers = {
-      authorization: `Bearer ${this.getSignedJwtToken()}`,
-      accept: "application/vnd.github.machine-man-preview+json",
+      Authorization: `Bearer ${this.getSignedJwtToken()}`,
+      Accept: "application/vnd.github.machine-man-preview+json",
     };
 
-    const { data } = axios.post(
+    const { data } = await axios.post(
       `https://api.github.com/app/installations/${installationId}/access_tokens`,
       {},
       { headers }
     );
-    // const { data } = await request(
-    //   "POST /app/installations/{installation_id}/access_tokens",
-    //   {
-    //     installationId,
-    //     headers: {
-    //       authorization: `Bearer ${this.getSignedJwtToken()}`,
-    //       accept: "application/vnd.github.machine-man-preview+json",
-    //     },
-    //   }
-    // );
 
     return data.token;
   }

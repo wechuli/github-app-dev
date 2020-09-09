@@ -5,7 +5,7 @@ const APP_ID = process.env.APP_ID;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 class App {
-  constructor(appID, privateKey) {
+  constructor({ appID, privateKey }) {
     this.appID = appID;
     this.privateKey = privateKey;
   }
@@ -19,7 +19,7 @@ class App {
     var token = jwt.sign(payload, this.privateKey, { algorithm: "RS256" });
     return token;
   }
-  async getInstallationAccessToken(installationId) {
+  async getInstallationAccessToken({ installationId }) {
     const { data } = await request(
       "POST /app/installations/{installation_id}/access_tokens",
       {
@@ -35,6 +35,6 @@ class App {
   }
 }
 
-const app = new App(APP_ID, PRIVATE_KEY);
+const app = new App({ APP_ID, PRIVATE_KEY });
 
 module.exports = app;

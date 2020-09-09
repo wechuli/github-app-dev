@@ -18,9 +18,9 @@ router.post("/", async (req, res) => {
     const installationId = payload["installation"]["id"];
     const baseInfo = { owner, repo };
 
-    const installationAccessToken = await app.getInstallationAccessToken(
-      installationId
-    );
+    const installationAccessToken = await app.getInstallationAccessToken({
+      installationId,
+    });
 
     const args = { req, res, installationAccessToken, baseInfo };
 

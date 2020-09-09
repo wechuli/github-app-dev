@@ -1,12 +1,13 @@
 const crypto = require("crypto");
-const randomObj = {
-  main: true,
-  hobbies: ["dsd", 23],
-};
-const key = "dsds";
+let key = process.env.WEBHOOK_SECRET;
 
-const token = crypto
-  .createHmac("sha1", key)
-  .update(JSON.stringify(randomObj))
-  .digest("hex");
-console.log(token);
+function generateGitHubHmac(payload, key) {
+  const hmacSignature = crypto
+    .createHmac("sha1", key)
+    .update(JSON.stringify(payload))
+    .digest("hex");
+
+  return `sha1=${hmacSignature}`;
+}
+
+console.log(generateGitHubHmac({ me: "dfdf" }, "ddsd"));

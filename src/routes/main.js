@@ -9,17 +9,21 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    // all events from github to the app will contain the body and the x-github-event event header that shows the type of event
-    const payload = req.body;
+    // get necessary parameters from the webhook headers and body
     const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
+    const payload = req.body;
     const X_HUB_SIGNATURE = req.headers["x-hub-signature"];
-    console.log(req.headers);
-
-    // we can take out the owner,installation_id and repo properties
     const owner = payload["repository"]["owner"]["login"];
     const repo = payload["repository"]["name"];
     const installationId = payload["installation"]["id"];
     const baseInfo = { owner, repo };
+
+    // before we do anything, lets verify the payload was really from github
+    const WebHookKey = process.env.WEBHOOK_SECRET;
+
+    if (X_HUB_SIGNATURE !== generateGitHubHmac(payload, WebHookKey)) {
+      res.status(403).json({ error: true, message: "unauthorized payload" });
+    }
 
     const installationAccessToken = await app.getInstallationAccessToken({
       installationId,

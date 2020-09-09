@@ -34,7 +34,9 @@ router.post("/", async (req, res) => {
         break;
     }
 
-    res.status(200).json({ error: false, message: "done processing" });
+    res
+      .status(200)
+      .json({ error: false, message: "event doesn't have a handler yet" });
   } catch (error) {
     res
       .status(500)

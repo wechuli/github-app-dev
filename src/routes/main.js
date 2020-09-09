@@ -12,23 +12,13 @@ router.post("/", async (req, res) => {
     const payload = req.body;
     const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
 
-    // we can take out the owner and repo properties
+    // we can take out the owner,installation_id and repo properties
     const owner = payload["repository"]["owner"]["login"];
     const repo = payload["repository"]["name"];
+    const installationId = payload['installation']['id'];
 
     const base_info = { owner, repo };
 
-    // lets get the authentication token that will allow us to make authenticated calls to our app installation
-    const { data } = await request("GET /repos/:owner/:repo/installation", {
-      owner,
-      repo,
-      headers: {
-        authorization: `Bearer ${appJWT}`,
-        accept: "application/vnd.github.machine-man-preview+json",
-      },
-    });
-
-    const installationId = data.id;
 
     const installationAccessToken = await app.getInstallationAccessToken({
       installationId,

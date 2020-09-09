@@ -1,15 +1,10 @@
 const jwt = require("jsonwebtoken");
-const octokit = require("@octokit/core");
+const { request } = require("@octokit/request");
 
-
-
-const APP_ID = process.env.APP_ID; // replace with your app ID
+const APP_ID = process.env.APP_ID;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
-const app = new App({ id: APP_ID, privateKey: PRIVATE_KEY });
-const appJWT = app.getSignedJsonWebToken();
-
-class AppAuth {
+class App {
   constructor(appID, privateKey) {
     this.appID = appID;
     this.privateKey = privateKey;
@@ -18,12 +13,24 @@ class AppAuth {
   getSignedJwtToken() {
     const payload = {
       iat: Math.floor(Date.now() / 1000),
-      exp: Math.floor(Date.now() / 1000) + 60 * 60,
+      exp: Math.floor(Date.now() / 1000) + 10 * 60,
+      iss: this.appID,
     };
-    var token = jwt.sign({}, this.privateKey, { algorithm: "RS256" });
+    var token = jwt.sign(payload, this.privateKey, { algorithm: "RS256" });
     return token;
   }
-  getInstallationAccessToken(installationId) {}
+  async getInstallationAccessToken(installationId) {
+    const { data } = await request("POST /app/installations/:installation_id/access_tokens", {
+        owner,
+        repo,
+        headers: {
+          authorization: `Bearer ${this.getSignedJwtToken()}`,
+          accept: "application/vnd.github.machine-man-preview+json",
+        },
+      });
+  }
 }
+
+const app = new App(APP_ID, PRIVATE_KEY);
 
 module.exports = { app, appJWT };

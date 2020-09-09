@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { request } = require("@octokit/request");
+const axios = require("axios");
 
 const APP_ID = process.env.APP_ID;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
@@ -20,16 +20,26 @@ class App {
     return token;
   }
   async getInstallationAccessToken({ installationId }) {
-    const { data } = await request(
-      "POST /app/installations/{installation_id}/access_tokens",
-      {
-        installationId,
-        headers: {
-          authorization: `Bearer ${this.getSignedJwtToken()}`,
-          accept: "application/vnd.github.machine-man-preview+json",
-        },
-      }
+    const headers = {
+      authorization: `Bearer ${this.getSignedJwtToken()}`,
+      accept: "application/vnd.github.machine-man-preview+json",
+    };
+
+    const { data } = axios.post(
+      `https://api.github.com/app/installations/${installationId}/access_tokens`,
+      {},
+      { headers }
     );
+    // const { data } = await request(
+    //   "POST /app/installations/{installation_id}/access_tokens",
+    //   {
+    //     installationId,
+    //     headers: {
+    //       authorization: `Bearer ${this.getSignedJwtToken()}`,
+    //       accept: "application/vnd.github.machine-man-preview+json",
+    //     },
+    //   }
+    // );
 
     return data.token;
   }

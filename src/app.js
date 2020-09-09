@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 // We only have one webhook for the app so only one route makes sense
-app.use("/app", mainRoute);
+app.use("/", mainRoute);
 
 
 //404 default route

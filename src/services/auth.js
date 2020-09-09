@@ -13,24 +13,28 @@ class App {
   getSignedJwtToken() {
     const payload = {
       iat: Math.floor(Date.now() / 1000),
-      exp: Math.floor(Date.now() / 1000) + 10 * 60,
+      exp: Math.floor(Date.now() / 1000) + 10 * 60, //expires after 10 minutes
       iss: this.appID,
     };
     var token = jwt.sign(payload, this.privateKey, { algorithm: "RS256" });
     return token;
   }
   async getInstallationAccessToken(installationId) {
-    const { data } = await request("POST /app/installations/:installation_id/access_tokens", {
-        owner,
-        repo,
+    const { data } = await request(
+      "POST /app/installations/{installation_id}/access_tokens",
+      {
+        installationId,
         headers: {
           authorization: `Bearer ${this.getSignedJwtToken()}`,
           accept: "application/vnd.github.machine-man-preview+json",
         },
-      });
+      }
+    );
+
+    return data.token;
   }
 }
 
 const app = new App(APP_ID, PRIVATE_KEY);
 
-module.exports = { app, appJWT };
+module.exports = app;

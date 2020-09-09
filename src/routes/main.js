@@ -1,6 +1,5 @@
 const express = require("express");
-const 
-const { app, appJWT } = require("../services/auth");
+const app = require("../services/auth");
 const { issuesHandler } = require("../controllers/issuesController");
 const { issues } = require("../constants/github-events");
 
@@ -15,19 +14,17 @@ router.post("/", async (req, res) => {
     // we can take out the owner,installation_id and repo properties
     const owner = payload["repository"]["owner"]["login"];
     const repo = payload["repository"]["name"];
-    const installationId = payload['installation']['id'];
+    const installationId = payload["installation"]["id"];
+    const baseInfo = { owner, repo };
 
-    const base_info = { owner, repo };
-
-
-    const installationAccessToken = await app.getInstallationAccessToken({
-      installationId,
-    });
+    const installationAccessToken = await app.getInstallationAccessToken(
+      installationId
+    );
 
     // route to different controllers depending on the x-github-event event header
     switch (HTTP_X_GITHUB_EVENT) {
       case issues:
-        return issuesHandler(req, res, installationAccessToken, base_info);
+        return issuesHandler(req, res, installationAccessToken, baseInfo);
 
       default:
         break;

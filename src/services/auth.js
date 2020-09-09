@@ -9,21 +9,21 @@ const PRIVATE_KEY = fs.readFileSync("config/privateKey.pem").toString();
 
 class App {
   constructor(params) {
-    this.appID = params.APP_ID;
-    this.privateKey = params.PRIVATE_KEY;
+    this.APP_ID = params.APP_ID;
+    this.PRIVATE_KEY = params.PRIVATE_KEY;
   }
 
   getSignedJwtToken() {
     const payload = {
       iat: Math.floor(Date.now() / 1000),
       exp: Math.floor(Date.now() / 1000) + 10 * 60, //expires after 10 minutes
-      iss: this.appID,
+      iss: this.APP_ID,
     };
-    var token = jwt.sign(payload, this.privateKey, { algorithm: "RS256" });
+    var token = jwt.sign(payload, this.PRIVATE_KEY, { algorithm: "RS256" });
     return token;
   }
   async getInstallationAccessToken(params) {
-    const installationId = params.installationId;
+    const { installationId } = params;
     try {
       const headers = {
         Authorization: `Bearer ${this.getSignedJwtToken()}`,

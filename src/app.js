@@ -3,7 +3,7 @@ const express = require("express"),
   morgan = require("morgan"),
   helmet = require("helmet");
 
-const eventRoute = require("./routes/main");
+const mainRoute = require("./routes/main");
 
 const app = express();
 
@@ -14,11 +14,12 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/app/events", eventRoute);
-// app.use("/app/installation", userRoutes);
+
+// We only have one webhook for the app so only one route makes sense
+app.use("/app", mainRoute);
+
 
 //404 default route
-
 app.use((req, res) => {
   res.status(404).json({ error: true, message: "Route unavailable" });
 });

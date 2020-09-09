@@ -40,7 +40,11 @@ router.post("/", async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ error: true, message: "there seems to be a big error" });
+      .json({
+        error: true,
+        message: "there seems to be a big error",
+        errorObject: error,
+      });
   }
 });
 

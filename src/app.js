@@ -3,9 +3,7 @@ const express = require("express"),
   morgan = require("morgan"),
   helmet = require("helmet");
 
-//custom imports
-const taskRoutes = require("./routes/taskRoutes"),
-  userRoutes = require("./routes/userRoutes");
+const eventRoute = require("./routes/main");
 
 const app = express();
 
@@ -16,7 +14,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/app/events", taskRoutes);
+app.use("/app/events", eventRoute);
 // app.use("/app/installation", userRoutes);
 
 //404 default route

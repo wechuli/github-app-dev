@@ -6,7 +6,12 @@
   "repository": "https://github.com/wechuli/github-app-dev.git",
   "author": "Wechuli <wechulipaul@yahoo.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "env-cmd -f ./config/dev.env nodemon src/app.js"
+  },
   "dependencies": {
+    "@octokit/app": "^4.2.1",
     "@octokit/core": "^3.1.2",
     "@octokit/request": "^5.4.7",
     "cors": "^2.8.5",

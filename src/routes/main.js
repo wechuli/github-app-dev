@@ -1,5 +1,5 @@
 const express = require("express");
-const app = require("../services/auth");
+const app = require("../app/app");
 const { generateGitHubHmac } = require("../helpers/generateHmac");
 const { issuesHandler } = require("../controllers/issuesController");
 const { pullsHandler } = require("../controllers/pullsController");

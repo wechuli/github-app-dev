@@ -7,6 +7,7 @@ const { issues, pull_request } = require("../helpers/githubEvents");
 
 const router = express.Router();
 
+
 router.post("/", async (req, res) => {
   try {
     // get necessary parameters from the webhook headers and body
@@ -18,11 +19,14 @@ router.post("/", async (req, res) => {
     const installationId = payload["installation"]["id"];
     const baseInfo = { owner, repo };
 
+    
     // before we do anything, lets verify the payload was really from github
     const WebHookKey = process.env.WEBHOOK_SECRET;
 
     if (X_HUB_SIGNATURE !== generateGitHubHmac(payload, WebHookKey)) {
-      res.status(403).json({ error: true, message: "unauthorized payload" });
+      return res
+        .status(403)
+        .json({ error: true, message: "unauthorized payload" });
     }
 
     const installationAccessToken = await app.getInstallationAccessToken({

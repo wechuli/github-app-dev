@@ -5,9 +5,10 @@ const fs = require("fs");
 const APP_ID = process.env.APP_ID;
 const PRIVATE_KEY1 = process.env.PRIVATE_KEY;
 
-console.log(PRIVATE_KEY1);
+//console.log(PRIVATE_KEY1);
 
 const PRIVATE_KEY = fs.readFileSync("config/privateKey.pem").toString();
+//const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 class App {
   constructor(params) {

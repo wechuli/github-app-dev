@@ -1,5 +1,8 @@
+const axios = require("axios");
 async function issuesHandler(args) {
   const { req, res, installationAccessToken, payload, baseInfo } = args;
+  console.log(payload);
+
   try {
     res
       .status(200)
